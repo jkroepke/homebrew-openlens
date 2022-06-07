@@ -30,8 +30,8 @@ class Openlens < Formula
       prefix.install "dist/mac#{dist_suffix}/OpenLens.app"
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     else
-      prefix.install "dist/linux-unpacked"
-      bin.write_exec_script prefix/"linux-unpacked/open-lens"
+      prefix.install Dir["dist/linux-unpacked/*"]
+      bin.write_exec_script prefix/"open-lens"
     end
   end
 
@@ -57,11 +57,10 @@ class Openlens < Formula
       assert_predicate install_path/"Resources/#{arch}/kubectl", :executable?
       assert_predicate install_path/"Resources/#{arch}/helm", :executable?
     else
-      install_path = prefix/"dist/linux-unpacked"
-      assert_predicate install_path/"open-lens", :executable?
-      assert_predicate install_path/"resources/#{arch}/lens-k8s-proxy", :executable?
-      assert_predicate install_path/"resources/#{arch}/kubectl", :executable?
-      assert_predicate install_path/"resources/#{arch}/helm", :executable?
+      assert_predicate prefix/"open-lens", :executable?
+      assert_predicate prefix/"resources/#{arch}/lens-k8s-proxy", :executable?
+      assert_predicate prefix/"resources/#{arch}/kubectl", :executable?
+      assert_predicate prefix/"resources/#{arch}/helm", :executable?
     end
   end
 end
