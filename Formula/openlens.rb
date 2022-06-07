@@ -17,8 +17,10 @@ class Openlens < Formula
   uses_from_macos "unzip" => :build
 
   def install
+    ENV.deparallelize
     # Don't dirty the git tree
     rm_rf ".brew_home"
+
     ENV["ELECTRON_BUILDER_EXTRA_ARGS"] = OS.mac? ? "--macos dir" : "--linux dir"
     system "make", "build"
 
