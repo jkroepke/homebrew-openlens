@@ -1,0 +1,28 @@
+name: homebrew
+
+on:
+  pull_request:
+    paths:
+      - openlens.rb
+      - .github/workflows/homebrew.yaml
+  push:
+    branches:
+      - master
+    paths:
+      - openlens.rb
+      - .github/workflows/homebrew.yaml
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+      - uses: actions/checkout@v2
+      - run: brew install openlens.rb
+      - run: brew test openlens
