@@ -1,5 +1,5 @@
 class Openlens < Formula
-  desc "The Kubernetes IDE"
+  desc "Kubernetes IDE"
   homepage "https://github.com/lensapp/lens"
   url "https://github.com/lensapp/lens.git",
       tag:      "v5.5.3",
@@ -26,28 +26,31 @@ class Openlens < Formula
       prefix.install "dist/mac/OpenLens.app"
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     else
-      prefix.install "dist/linux/openlens"
+      prefix.install "dist/linux-unpacked"
+      bin.write_exec_script prefix/"dist/linux-unpacked/open-lens"
     end
   end
 
   def caveats
-    <<~EOS
-      To start OpenLens, from a terminal run
-      "#{prefix}/OpenLens.app/Contents/MacOS/OpenLens".
-
-      Alternatively, run
-      ln -sfn "#{prefix}/OpenLens.app" /Applications/OpenLens.app
-      to start OpenLens from Spotlight or Finder.
-    EOS
+    if OS.mac?
+      <<~EOS
+        To start OpenLens, from a terminal run
+        "#{prefix}/OpenLens.app/Contents/MacOS/OpenLens".
+  
+        Alternatively, run
+        ln -sfn "#{prefix}/OpenLens.app" /Applications/OpenLens.app
+        to start OpenLens from Spotlight or Finder.
+      EOS
+    end
   end
 
   test do
-    if OS.mac?
-      assert_predicate prefix/"OpenLens.app/Contents/MacOS/OpenLens", :executable?
-    else
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
+    binary_path = OS.mac? ? prefix/"OpenLens.app/Contents/MacOS/OpenLens" : prefix/"dist/linux-unpacked/open-lens"
 
-      #TODO: Linux test
+    if OS.mac?
+      assert_predicate binary_path, :executable?
+    else
+      assert_predicate binary_path, :executable?
     end
   end
 end
