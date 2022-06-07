@@ -51,7 +51,7 @@ class Openlens < Formula
   test do
     arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
     if OS.mac?
-      install_path = prefix/"OpenLens.app/Contents/MacOS/"
+      install_path = prefix/"OpenLens.app/Contents/"
       assert_predicate install_path/"MacOS/OpenLens", :executable?
       assert_predicate install_path/"Resources/#{arch}/lens-k8s-proxy", :executable?
       assert_predicate install_path/"Resources/#{arch}/kubectl", :executable?
