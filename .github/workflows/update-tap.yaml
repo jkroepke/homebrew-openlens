@@ -1,0 +1,20 @@
+name: update-tap
+
+on:
+  schedule:
+    # Every 6 hours every day
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-tap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Homebrew formulae
+        uses: dawidd6/action-homebrew-bump-formula@master
+        with:
+          # Requires personal access token
+          token: "${{ secrets.BREW_TOKEN }}"
+          tap: jkroepke/openlens
+          force: false
+          livecheck: true
