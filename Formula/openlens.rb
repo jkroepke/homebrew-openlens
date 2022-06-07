@@ -27,7 +27,7 @@ class Openlens < Formula
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     else
       prefix.install "dist/linux-unpacked"
-      bin.write_exec_script prefix/"dist/linux-unpacked/open-lens"
+      bin.write_exec_script prefix/"linux-unpacked/open-lens"
     end
   end
 
@@ -36,7 +36,7 @@ class Openlens < Formula
       <<~EOS
         To start OpenLens, from a terminal run
         "#{prefix}/OpenLens.app/Contents/MacOS/OpenLens".
-  
+
         Alternatively, run
         ln -sfn "#{prefix}/OpenLens.app" /Applications/OpenLens.app
         to start OpenLens from Spotlight or Finder.
@@ -46,11 +46,6 @@ class Openlens < Formula
 
   test do
     binary_path = OS.mac? ? prefix/"OpenLens.app/Contents/MacOS/OpenLens" : prefix/"dist/linux-unpacked/open-lens"
-
-    if OS.mac?
-      assert_predicate binary_path, :executable?
-    else
-      assert_predicate binary_path, :executable?
-    end
+    assert_predicate binary_path, :executable?
   end
 end
