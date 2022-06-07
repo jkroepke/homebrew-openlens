@@ -19,14 +19,14 @@ class Openlens < Formula
   def install
     # Don't dirty the git tree
     rm_rf ".brew_home"
-
-    ENV["ELECTRON_BUILDER_EXTRA_ARG"] = "--macos dir" if OS.mac?
-
+    ENV["ELECTRON_BUILDER_EXTRA_ARGS"] = OS.mac? ? "--macos dir" : "--linux dir"
     system "make", "build"
 
     if OS.mac?
       prefix.install "dist/mac/OpenLens.app"
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
+    else
+      prefix.install "dist/linux/openlens"
     end
   end
 
@@ -42,6 +42,12 @@ class Openlens < Formula
   end
 
   test do
-    assert_path_exists prefix/"OpenLens.app/Contents/MacOS/OpenLens" if OS.mac?
+    if OS.mac?
+      assert_predicate prefix/"OpenLens.app/Contents/MacOS/OpenLens", :executable?
+    else
+      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
+
+      #TODO: Linux test
+    end
   end
 end
