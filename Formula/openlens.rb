@@ -17,19 +17,21 @@ class Openlens < Formula
   uses_from_macos "unzip" => :build
 
   def install
+    ENV.deparallelize
     # Don't dirty the git tree
     rm_rf ".brew_home"
+
     ENV["ELECTRON_BUILDER_EXTRA_ARGS"] = OS.mac? ? "--macos dir" : "--linux dir"
     system "make", "build"
 
     if OS.mac?
-      dist_suffix = Hardware::CPU.intel? ? "" : "-#{Hardware::CPU.arch.to_s}"
+      dist_suffix = Hardware::CPU.intel? ? "" : "-#{Hardware::CPU.arch}"
 
       prefix.install "dist/mac#{dist_suffix}/OpenLens.app"
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     else
-      prefix.install "dist/linux-unpacked"
-      bin.write_exec_script prefix/"linux-unpacked/open-lens"
+      prefix.install Dir["dist/linux-unpacked/*"]
+      bin.write_exec_script prefix/"open-lens"
     end
   end
 
@@ -47,7 +49,18 @@ class Openlens < Formula
   end
 
   test do
-    binary_path = OS.mac? ? prefix/"OpenLens.app/Contents/MacOS/OpenLens" : prefix/"dist/linux-unpacked/open-lens"
-    assert_predicate binary_path, :executable?
+    arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
+    if OS.mac?
+      install_path = prefix/"OpenLens.app/Contents/"
+      assert_predicate install_path/"MacOS/OpenLens", :executable?
+      assert_predicate install_path/"Resources/#{arch}/lens-k8s-proxy", :executable?
+      assert_predicate install_path/"Resources/#{arch}/kubectl", :executable?
+      assert_predicate install_path/"Resources/#{arch}/helm", :executable?
+    else
+      assert_predicate prefix/"open-lens", :executable?
+      assert_predicate prefix/"resources/#{arch}/lens-k8s-proxy", :executable?
+      assert_predicate prefix/"resources/#{arch}/kubectl", :executable?
+      assert_predicate prefix/"resources/#{arch}/helm", :executable?
+    end
   end
 end
