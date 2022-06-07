@@ -14,7 +14,7 @@ brew install openlens
 OR
 
 ```shell
-brew tap jkroepke/openlens/openlens
+brew install jkroepke/openlens/openlens
 ```
 
 ## Documentation
