@@ -47,7 +47,19 @@ class Openlens < Formula
   end
 
   test do
-    binary_path = OS.mac? ? prefix/"OpenLens.app/Contents/MacOS/OpenLens" : prefix/"dist/linux-unpacked/open-lens"
-    assert_predicate binary_path, :executable?
+    arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
+    if OS.mac?
+      install_path = prefix/"OpenLens.app/Contents/MacOS/"
+      assert_predicate install_path/"MacOS/OpenLens", :executable?
+      assert_predicate install_path/"Resources/#{arch}/lens-k8s-proxy", :executable?
+      assert_predicate install_path/"Resources/#{arch}/kubectl", :executable?
+      assert_predicate install_path/"Resources/#{arch}/helm", :executable?
+    else
+      install_path = prefix/"dist/linux-unpacked"
+      assert_predicate install_path/"open-lens", :executable?
+      assert_predicate install_path/"resources/#{arch}/lens-k8s-proxy", :executable?
+      assert_predicate install_path/"resources/#{arch}/kubectl", :executable?
+      assert_predicate install_path/"resources/#{arch}/helm", :executable?
+    end
   end
 end
