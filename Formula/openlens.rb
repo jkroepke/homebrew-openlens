@@ -20,11 +20,25 @@ class Openlens < Formula
     # Don't dirty the git tree
     rm_rf ".brew_home"
 
+    ENV["ELECTRON_BUILDER_EXTRA_ARG"] = "--macos dir" if OS.mac?
+
     system "make", "build"
+
     if OS.mac?
       prefix.install "dist/mac/OpenLens.app"
-      bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens" if OS.mac?
+      bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     end
+  end
+
+  def caveats
+    <<~EOS
+      To start OpenLens, from a terminal run
+      "#{prefix}/OpenLens.app/Contents/MacOS/OpenLens".
+
+      Alternatively, run
+      ln -sfn "#{prefix}/OpenLens.app" /Applications/OpenLens.app
+      to start OpenLens from Spotlight or Finder.
+    EOS
   end
 
   test do
