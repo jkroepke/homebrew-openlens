@@ -23,7 +23,9 @@ class Openlens < Formula
     system "make", "build"
 
     if OS.mac?
-      prefix.install "dist/mac/OpenLens.app"
+      dist_suffix = Hardware::CPU.intel? ? "" : "-#{Hardware::CPU.arch.to_s}"
+
+      prefix.install "dist/mac#{dist_suffix}/OpenLens.app"
       bin.write_exec_script prefix/"OpenLens.app/Contents/MacOS/OpenLens"
     else
       prefix.install "dist/linux-unpacked"
