@@ -17,6 +17,10 @@ OR
 brew install jkroepke/openlens/openlens
 ```
 
+### Why?
+
+See https://github.com/lensapp/lens/issues/5444 for more reference.
+
 ## Documentation
 
 `brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
