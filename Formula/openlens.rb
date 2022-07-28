@@ -12,7 +12,7 @@ class Openlens < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  depends_on "node@14" => :build
+  depends_on "node@16" => :build
   depends_on "yarn" => :build
   uses_from_macos "unzip" => :build
 
