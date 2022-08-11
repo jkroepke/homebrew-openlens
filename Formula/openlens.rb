@@ -2,8 +2,8 @@ class Openlens < Formula
   desc "Kubernetes IDE"
   homepage "https://github.com/lensapp/lens"
   url "https://github.com/lensapp/lens.git",
-      tag:      "v6.0.0",
-      revision: "9bc0e8951bbcfe153ac796fa661de2b4bc6a18ce"
+      tag:      "v6.0.1",
+      revision: "be2f1731d3a86d439212928612e352e030e3778f"
   license "MIT"
   head "https://github.com/lensapp/lens.git", branch: "main"
 
