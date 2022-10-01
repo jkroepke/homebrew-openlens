@@ -1,4 +1,4 @@
-class Openlens < Formula
+class OpenlensFromSource < Formula
   desc "Kubernetes IDE"
   homepage "https://github.com/lensapp/lens"
   url "https://github.com/lensapp/lens.git",
