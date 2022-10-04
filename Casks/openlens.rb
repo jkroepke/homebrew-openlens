@@ -6,7 +6,7 @@ cask "openlens" do
   if Hardware::CPU.intel?
     sha256 "aaf80c18832327858b10c75f133662debe303715908e49c899df99470a7acdb1"
   else
-    sha256 "d0fa1d58f2ee47db1d45a7ef070c5127c0c39dbd783854eda3aec09bdd3ba3e9"
+    sha256 "53f3f0ac70d2d24656c19eae78237a9696766afad023ef3319a29b7fe0800e8d"
   end
 
   url "https://github.com/MuhammedKalkan/OpenLens/releases/download/v#{version}/OpenLens-#{version}#{arch}.dmg"
